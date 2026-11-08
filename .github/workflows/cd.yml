@@ -1,0 +1,38 @@
+name: CD
+
+on:
+  push:
+    branches: [master]
+
+permissions:
+  contents: read
+  id-token: write
+
+env:
+  PROJECT_ID: a3-retail-dwh-project
+  BUCKET_PATH: gs://a3-data-pipeline-code
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+          workload_identity_provider: projects/831198137945/locations/global/workloadIdentityPools/github-actions-pool/providers/github-actions-provider
+          service_account: ingest-bronze-sa@a3-retail-dwh-project.iam.gserviceaccount.com
+
+      - uses: google-github-actions/setup-gcloud@v2
+
+      - name: Build utils.zip
+        run: |
+          cd utils
+          zip -r ../utils.zip . -x "__pycache__/*"
+
+      - name: Sync src and utils to GCS
+        run: |
+          gsutil -m rsync -r -d src ${{ env.BUCKET_PATH }}/src
+          gsutil cp utils.zip ${{ env.BUCKET_PATH }}/utils.zip
