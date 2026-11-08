@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `a3-retail-dwh-project.bronze_layer.merchant` (
   dq_status STRING,
   dq_issues STRING,
   ingested_at TIMESTAMP,
-  bronze_loaded_at TIMESTAMP
+  bronze_ingested_at TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS `a3-retail-dwh-project.bronze_layer.ward` (
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `a3-retail-dwh-project.bronze_layer.ward` (
   province_code INT64,
   latitude FLOAT64,
   longitude FLOAT64,
-  bronze_loaded_at TIMESTAMP
+  bronze_ingested_at TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS `a3-retail-dwh-project.bronze_layer.province` (
@@ -42,5 +42,5 @@ CREATE TABLE IF NOT EXISTS `a3-retail-dwh-project.bronze_layer.province` (
   region_name STRING,
   latitude FLOAT64,
   longitude FLOAT64,
-  bronze_loaded_at TIMESTAMP
+  bronze_ingested_at TIMESTAMP
 );
