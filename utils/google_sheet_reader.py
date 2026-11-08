@@ -51,7 +51,8 @@ def read_merchant_sheet(spark):
         response = requests.get(MERCHANT_URL, headers={"Authorization": f"Bearer {credentials.token}"})
         response.raise_for_status()
 
-        pdf = pd.read_excel(io.BytesIO(response.content), sheet_name=SHEET_NAME).astype(str)
+        pdf = pd.read_excel(io.BytesIO(response.content), sheet_name=SHEET_NAME)
+        pdf = pdf.astype(str).where(pdf.notna(), None)
         return spark.createDataFrame(pdf)
 
     except Exception:
