@@ -29,8 +29,7 @@ jobs:
 
       - name: Build utils.zip
         run: |
-          cd utils
-          zip -r ../utils.zip . -x "__pycache__/*"
+          zip -r utils.zip utils -x "utils/__pycache__/*"
 
       - name: Sync src and utils to GCS
         run: |
