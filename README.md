@@ -39,3 +39,15 @@ Spark ingest pipeline (bronze/silver/gold) cho A3 Retail DWH, chạy trên Datap
 
 > Tóm gọn: **sửa code → sync → submit test → pass thì mới push → (CD tự re-sync).**
 > Không chạy local — test trực tiếp trên Dataproc Serverless, tránh push code chưa test lên `master`.
+
+## Tầng gold (chỉ SQL, không cần Dataproc)
+
+Gold được dựng lại hoàn toàn từ silver mỗi lần chạy (silver đã giữ đủ lịch sử SCD2), nên chạy lặp lại luôn ra cùng kết quả.
+Mỗi bảng là 1 file trong `sql/gold/` (xoá + insert trong 1 transaction), chạy theo thứ tự FK:
+`dim_province → dim_ward → dim_category → dim_phone → dim_address → dim_merchant`.
+
+```bash
+python -m src.gold.run_gold
+```
+
+Cần Application Default Credentials của tài khoản công ty: `gcloud auth application-default login`.
