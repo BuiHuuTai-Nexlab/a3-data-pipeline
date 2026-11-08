@@ -5,13 +5,6 @@ from dotenv import load_dotenv
 from pyspark.sql import SparkSession
 
 load_dotenv(override=True)
-hadoop_home = os.environ.get("HADOOP_HOME")
-if hadoop_home:
-    os.environ["PATH"] += f";{hadoop_home}\\bin"
-
-os.environ["PYSPARK_PYTHON"] = sys.executable
-os.environ["PYSPARK_DRIVER_PYTHON"] = sys.executable
-
 
 def get_spark_session(app_name: str) -> SparkSession:
     spark = SparkSession\

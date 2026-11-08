@@ -13,7 +13,7 @@ def ingest_merchant():
 
     watermark = get_max_ingested_at(TABLE_ID)
     if watermark:
-        df = df.filter(F.col("ingested_at") >= F.lit(watermark))
+        df = df.filter(F.col("ingested_at") > F.lit(watermark))
 
     df = df.withColumn("bronze_loaded_at", F.current_timestamp())
 
