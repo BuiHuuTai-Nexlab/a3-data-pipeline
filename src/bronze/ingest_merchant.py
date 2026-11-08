@@ -5,6 +5,7 @@ from utils.bigquery_io import write_to_bigquery, get_max_ingested_at
 
 TABLE_ID = "a3-retail-dwh-project.bronze_layer.merchant"
 
+
 def ingest_merchant():
     spark = get_spark_session("ingest_merchant")
     df = read_merchant_sheet(spark)
@@ -18,6 +19,7 @@ def ingest_merchant():
     df = df.withColumn("bronze_loaded_at", F.current_timestamp())
 
     write_to_bigquery(df, TABLE_ID, mode="append")
+
 
 if __name__ == "__main__":
     ingest_merchant()

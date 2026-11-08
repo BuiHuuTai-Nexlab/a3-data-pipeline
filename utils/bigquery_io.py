@@ -1,6 +1,9 @@
-from utils.logger import get_logger
-logger = get_logger(__name__) 
 from google.cloud import bigquery
+
+from utils.logger import get_logger
+
+logger = get_logger(__name__)
+
 
 def get_max_ingested_at(table_id):
     client = bigquery.Client()
@@ -10,6 +13,7 @@ def get_max_ingested_at(table_id):
         return watermark
     except Exception:
         return None
+
 
 def write_to_bigquery(df, table_id, mode="overwrite"):
     try:
