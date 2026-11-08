@@ -52,3 +52,53 @@ CREATE TABLE IF NOT EXISTS `a3-retail-dwh-project.silver_layer.merchant` (
   is_current BOOL
 )
 CLUSTER BY is_current, merchant_id;
+
+-- Bảng staging: job silver ghi batch mới vào đây (overwrite mỗi lần chạy) rồi mới merge vào bảng silver.
+-- Phải tạo sẵn: để Spark connector vừa tạo bảng vừa ghi sẽ lỗi NOT_FOUND. Không có cột *_sk (sk sinh lúc insert).
+CREATE TABLE IF NOT EXISTS `a3-retail-dwh-project.silver_layer.province_staging` (
+  province_id INT64,
+  province_name STRING,
+  province_full_name STRING,
+  province_type STRING,
+  region_name STRING,
+  latitude FLOAT64,
+  longitude FLOAT64,
+  bronze_ingested_at TIMESTAMP,
+  silver_ingested_at TIMESTAMP,
+  valid_from_date TIMESTAMP,
+  valid_to_date TIMESTAMP,
+  is_current BOOL
+);
+
+CREATE TABLE IF NOT EXISTS `a3-retail-dwh-project.silver_layer.ward_staging` (
+  ward_id INT64,
+  ward_name STRING,
+  ward_full_name STRING,
+  ward_type STRING,
+  province_id INT64,
+  latitude FLOAT64,
+  longitude FLOAT64,
+  bronze_ingested_at TIMESTAMP,
+  silver_ingested_at TIMESTAMP,
+  valid_from_date TIMESTAMP,
+  valid_to_date TIMESTAMP,
+  is_current BOOL
+);
+
+CREATE TABLE IF NOT EXISTS `a3-retail-dwh-project.silver_layer.merchant_staging` (
+  merchant_id STRING,
+  phone STRING,
+  phone_carrier STRING,
+  merchant_name STRING,
+  address STRING,
+  ward_id INT64,
+  province_id INT64,
+  category_l1_name STRING,
+  category_l2_name STRING,
+  ingested_at TIMESTAMP,
+  bronze_ingested_at TIMESTAMP,
+  silver_ingested_at TIMESTAMP,
+  valid_from_date TIMESTAMP,
+  valid_to_date TIMESTAMP,
+  is_current BOOL
+);
