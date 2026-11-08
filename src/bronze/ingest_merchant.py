@@ -1,6 +1,6 @@
 from pyspark.sql import functions as F
 from utils.spark_session import get_spark_session
-from utils.gsheet_reader import read_merchant_sheet
+from utils.google_sheet_reader import read_merchant_sheet
 from utils.bigquery_io import write_to_bigquery, get_max_ingested_at
 
 TABLE_ID = "a3-retail-dwh-project.bronze_layer.merchant"
