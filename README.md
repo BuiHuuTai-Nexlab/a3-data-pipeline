@@ -51,3 +51,17 @@ python -m src.gold.run_gold
 ```
 
 Cần Application Default Credentials của tài khoản công ty: `gcloud auth application-default login`.
+
+## Chạy theo lịch (Cloud Workflows + Cloud Scheduler)
+
+`workflows/pipeline.yaml` chạy cả pipeline: `ingest_merchant → silver province → ward → merchant → 6 file SQL gold`.
+Các batch chạy tuần tự vì quota CPU của project không đủ để chạy song song. Batch nào lỗi thì workflow dừng và báo lỗi.
+Cloud Scheduler job `a3-data-pipeline-daily` gọi workflow lúc 02:00 mỗi ngày (giờ Việt Nam).
+
+```bash
+bash workflows/deploy.sh                  # tạo/cập nhật service account, workflow và lịch (chạy lại an toàn)
+bash workflows/deploy.sh "0 6 * * *"      # đổi giờ chạy
+gcloud workflows run a3-data-pipeline --location=asia-southeast1   # chạy tay
+```
+
+CD đồng bộ `src/`, `utils.zip` và `sql/gold/` lên bucket nên workflow luôn chạy code mới nhất trên `master`.

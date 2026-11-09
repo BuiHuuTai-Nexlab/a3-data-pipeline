@@ -31,7 +31,8 @@ jobs:
         run: |
           zip -r utils.zip utils -x "utils/__pycache__/*"
 
-      - name: Sync src and utils to GCS
+      - name: Sync src, utils and gold sql to GCS
         run: |
           gsutil -m rsync -r -d src ${{ env.BUCKET_PATH }}/src
           gsutil cp utils.zip ${{ env.BUCKET_PATH }}/utils.zip
+          gsutil -m rsync -r -d sql/gold ${{ env.BUCKET_PATH }}/sql/gold
