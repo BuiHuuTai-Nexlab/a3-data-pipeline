@@ -2,7 +2,6 @@ BEGIN TRANSACTION;
 
 DELETE FROM `a3-retail-dwh-project.gold_layer.dim_category` WHERE TRUE;
 
--- Nguon chi co ten category, chua co ma nen category_l1_code / category_l2_code de NULL.
 INSERT INTO `a3-retail-dwh-project.gold_layer.dim_category` (
   category_sk, category_l1_code, category_l1_name, category_l2_code, category_l2_name,
   valid_from_date, valid_to_date, is_current
