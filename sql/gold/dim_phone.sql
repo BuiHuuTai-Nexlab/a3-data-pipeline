@@ -3,7 +3,12 @@ BEGIN TRANSACTION;
 DELETE FROM `a3-retail-dwh-project.gold_layer.dim_phone` WHERE TRUE;
 
 INSERT INTO `a3-retail-dwh-project.gold_layer.dim_phone` (
-  phone_sk, phone_number, phone_carrier, valid_from_date, valid_to_date, is_current
+  phone_sk,
+  phone_number,
+  phone_carrier,
+  valid_from_date,
+  valid_to_date,
+  is_current
 )
 SELECT
   TO_HEX(MD5(TO_JSON_STRING(STRUCT(phone, phone_carrier)))) AS phone_sk,
