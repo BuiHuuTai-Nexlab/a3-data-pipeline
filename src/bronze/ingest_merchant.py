@@ -7,8 +7,7 @@ from utils.bigquery_io import write_to_bigquery, get_max_ingested_at
 TABLE_ID = "a3-retail-dwh-project.bronze_layer.merchant"
 
 
-def ingest_merchant():
-    spark = get_spark_session("ingest_merchant")
+def ingest_merchant(spark):
     df = read_merchant_sheet(spark)
     df = df.withColumn("ingested_at", F.col("ingested_at").cast("timestamp"))
     df = df.withColumn("source_record_count", F.col("source_record_count").cast("integer"))
@@ -23,4 +22,4 @@ def ingest_merchant():
 
 
 if __name__ == "__main__":
-    ingest_merchant()
+    ingest_merchant(get_spark_session("ingest_merchant"))

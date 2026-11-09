@@ -12,8 +12,7 @@ STAGING_TABLE = "a3-retail-dwh-project.silver_layer.province_staging"
 WATERMARK_COLUMN = "bronze_ingested_at"
 
 
-def transform_province():
-    spark = get_spark_session("transform_province")
+def transform_province(spark):
     client = bigquery.Client()
 
     df = bronze_change_data_captured(spark, client)
@@ -97,4 +96,4 @@ def bronze_change_data_captured(spark, client):
 
 
 if __name__ == "__main__":
-    transform_province()
+    transform_province(get_spark_session("transform_province"))

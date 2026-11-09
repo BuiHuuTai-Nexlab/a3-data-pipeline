@@ -1,4 +1,4 @@
-# Chay ca pipeline: bronze -> silver (3 job tuan tu, quota CPU khong du de chay song song) -> gold (6 file SQL theo thu tu FK).
+# Chay ca pipeline: bronze -> silver (1 batch Spark) -> gold (6 file SQL theo thu tu FK).
 main:
   steps:
     - init:
@@ -12,24 +12,12 @@ main:
               - dim_address
               - dim_merchant
 
-    - bronze:
+    - spark_jobs:
         call: run_batch
         args:
-          name: ingest-merchant
-          script: src/bronze/ingest_merchant.py
+          name: spark-pipeline
+          script: src/run_pipeline.py
           run_id: ${run_id}
-
-    - silver:
-        for:
-          value: job
-          in: [province, ward, merchant]
-          steps:
-            - run_silver:
-                call: run_batch
-                args:
-                  name: ${"silver-" + job}
-                  script: ${"src/silver/transform_" + job + ".py"}
-                  run_id: ${run_id}
 
     - gold:
         for:

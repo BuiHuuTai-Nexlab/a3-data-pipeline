@@ -1,7 +1,7 @@
-from dotenv import load_dotenv
+from dotenv import find_dotenv, load_dotenv
 from pyspark.sql import SparkSession
 
-load_dotenv(override=True)
+load_dotenv(find_dotenv(usecwd=True), override=True)
 
 BIGQUERY_CONNECTOR_PACKAGES = (
     "com.google.cloud.spark:spark-bigquery-with-dependencies_2.12:0.41.1,"
