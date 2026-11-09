@@ -48,8 +48,7 @@ def resolve_admin_unit(ward_name, district_name, province_name):
     return (result.ward_code, result.province_code)
 
 
-def transform_merchant():
-    spark = get_spark_session("transform_merchant")
+def transform_merchant(spark):
     client = bigquery.Client()
 
     df = bronze_change_data_captured(spark, client)
@@ -145,4 +144,4 @@ def bronze_change_data_captured(spark, client):
 
 
 if __name__ == "__main__":
-    transform_merchant()
+    transform_merchant(get_spark_session("transform_merchant"))
