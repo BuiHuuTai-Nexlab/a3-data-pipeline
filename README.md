@@ -43,7 +43,7 @@ Spark ingest pipeline (bronze/silver/gold) cho A3 Retail DWH, chạy trên Datap
 ## Tầng gold (chỉ SQL, không cần Dataproc)
 
 Gold được dựng lại hoàn toàn từ silver mỗi lần chạy (silver đã giữ đủ lịch sử SCD2), nên chạy lặp lại luôn ra cùng kết quả.
-Mỗi bảng là 1 file trong `sql/gold/` (xoá + insert trong 1 transaction), chạy theo thứ tự FK:
+Mỗi bảng là 1 file trong `src/gold/` (xoá + insert trong 1 transaction), chạy theo thứ tự FK:
 `dim_province → dim_ward → dim_category → dim_phone → dim_address → dim_merchant`.
 
 ```bash
@@ -64,4 +64,4 @@ bash workflows/deploy.sh "0 6 * * *"      # đổi giờ chạy
 gcloud workflows run a3-data-pipeline --location=asia-southeast1   # chạy tay
 ```
 
-CD đồng bộ `src/`, `utils.zip` và `sql/gold/` lên bucket nên workflow luôn chạy code mới nhất trên `master`.
+CD đồng bộ `src/` (gồm cả SQL gold) và `utils.zip` lên bucket nên workflow luôn chạy code mới nhất trên `master`.
