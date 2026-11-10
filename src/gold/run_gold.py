@@ -6,7 +6,7 @@ from utils.logger import get_logger
 
 logger = get_logger(__name__)
 
-SQL_DIR = Path(__file__).resolve().parents[2] / "sql" / "gold"
+SQL_DIR = Path(__file__).resolve().parent
 
 # Thu tu quan trong: bang nao tro toi bang khac (FK) phai chay sau.
 DIM_ORDER = [

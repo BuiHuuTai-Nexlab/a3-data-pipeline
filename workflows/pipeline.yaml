@@ -27,7 +27,7 @@ main:
             - run_gold_sql:
                 call: run_sql_file
                 args:
-                  path: ${"sql/gold/" + table + ".sql"}
+                  path: ${"src/gold/" + table + ".sql"}
 
     - done:
         return: ${"pipeline " + run_id + " finished"}
@@ -79,7 +79,7 @@ run_batch:
         next: wait
 
 
-# Doc 1 file SQL tu GCS (CD dong bo sql/gold len bucket) roi chay tren BigQuery.
+# Doc 1 file SQL tu GCS (CD dong bo src/ len bucket, gom ca file SQL gold) roi chay tren BigQuery.
 run_sql_file:
   params: [path]
   steps:
